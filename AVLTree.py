@@ -70,9 +70,33 @@ def inOrderTraversal(node):
     print(node.data, end=" ")
     inOrderTraversal(node.right)
 
-root = None
-letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
-for letter in letters:
-    root = insert(root, letter)
+def preOrderTraversal(node):
+    if node is None:
+        return
+    print(node.data, end=" ")
+    preOrderTraversal(node.left)
+    preOrderTraversal(node.right)
 
-inOrderTraversal(root)
+def postOrderTraversal(node):
+    if node is None:
+        return
+    postOrderTraversal(node.left)
+    postOrderTraversal(node.right)
+    print(node.data, end=" ")
+
+def main():
+    root = None
+    letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
+    for letter in letters:
+        root = insert(root, letter)
+
+    print("\nInorder Traversal:")
+    inOrderTraversal(root)
+
+    print("\n\nPreorder Traversal:")
+    preOrderTraversal(root)
+
+    print("\n\nPostorder Traversal:")
+    postOrderTraversal(root)
+
+main()
