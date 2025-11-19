@@ -84,36 +84,48 @@ def postOrderTraversal(node):
     postOrderTraversal(node.right)
     print(node.data, end=" ")
 
+def printTree(node, level=0):
+    if node is not None:
+        printTree(node.right, level + 1)
+        print(' ' * 5 * level + '->', node.data)
+        printTree(node.left, level + 1)
+
 
 def mainMenu(root):
     while True:
         print("\n==== Main Menu ====")
-        print("1. Insert a node")
-        print("2. Delete a node")
-        print("3. Pre-order Traversal")
-        print("4. In-order Traversal")
-        print("5. Post-order Traversal")
-        print("6. Breadth First Search Traversal")
-        print("7. Exit")
+        print("1. Look at AVL Tree")
+        print("2. Insert a node")
+        print("3. Delete a node")
+        print("4. Pre-order Traversal")
+        print("5. In-order Traversal")
+        print("6. Post-order Traversal")
+        print("7. Breadth First Search Traversal")
+        print("8. Exit")
 
-        choice = input("Enter your choice (1-7): ")
+        choice = input("Enter your choice (1-8): ")
         if choice == '1':
-            node = int(input("--> Enter value to insert: "))
+            print("\n--> AVL Tree:")
+            printTree(root)
+        elif choice == '2':
+            node = input("--> Enter value to insert: ")
             root = insert(root, node)
             print(f"--> Inserted {node} into AVL tree.")
-        elif choice == '2':
+        elif choice == '3':
             node = int(input("--> Enter value to delete: "))
             print("Deleted")
-        elif choice == '3':
-            print("--> Pre-order Traversal:")
         elif choice == '4':
+            print("--> Pre-order Traversal:")
+            preOrderTraversal(root)
+        elif choice == '5':
             print("--> In-order Traversal:")
             inOrderTraversal(root)
-        elif choice == '5':
-            print("--> Post-order Traversal:")
         elif choice == '6':
-            print("--> Breadth First Search Traversal:")
+            print("--> Post-order Traversal:")
+            postOrderTraversal(root)
         elif choice == '7':
+            print("--> Breadth First Search Traversal:")
+        elif choice == '8':
             print("--> Exiting the program... Byerzzz!!!")
             break
         else:
@@ -122,10 +134,10 @@ def mainMenu(root):
 
 def main():
     root = None
-    values = [10, 20, 30, 40, 50, 67]
+    # values = [10, 20, 30, 40, 50, 67]
 
-    for value in values:
-        root = insert(root, value)
+    # for value in values:
+    #     root = insert(root, value)
 
     print("================================")
     print("Welcome to our AVL Tree Program!")
