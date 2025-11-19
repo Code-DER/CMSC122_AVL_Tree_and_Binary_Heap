@@ -1,3 +1,6 @@
+
+from collections import deque
+
 class treeNode:
     def __init__ (self, data):
         self.data = data
@@ -63,6 +66,20 @@ def insert(node, data):
     
     return node
 
+def breadthFirstSearch(node):
+    if node is None:
+        return
+    
+    queue = deque([node])
+    while queue:
+        node = queue.popleft()
+        print(node.data, end=" ")
+
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+
 def preOrderTraversal(node):
     if node is None:
         return
@@ -125,6 +142,7 @@ def mainMenu(root):
             postOrderTraversal(root)
         elif choice == '7':
             print("--> Breadth First Search Traversal:")
+            breadthFirstSearch(root)
         elif choice == '8':
             print("--> Exiting the program... Byerzzz!!!")
             break
