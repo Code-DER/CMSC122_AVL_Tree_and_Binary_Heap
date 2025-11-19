@@ -1,3 +1,5 @@
+# CMSC 122 (C-3L) Week 6 Laboratory Activity
+# Joseph Francis Buhayan, Xander Jay Cagang, Michael James Mangaron, Joe Hanna Cantero, Charisse Lorejo, Krystel Mikylla Perez
 
 from collections import deque
 
@@ -152,10 +154,6 @@ def mainMenu(root):
 
 def main():
     root = None
-    # values = [10, 20, 30, 40, 50, 67]
-
-    # for value in values:
-    #     root = insert(root, value)
 
     print("================================")
     print("Welcome to our AVL Tree Program!")
