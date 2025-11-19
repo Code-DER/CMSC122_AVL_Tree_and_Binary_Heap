@@ -70,9 +70,54 @@ def inOrderTraversal(node):
     print(node.data, end=" ")
     inOrderTraversal(node.right)
 
-root = None
-letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
-for letter in letters:
-    root = insert(root, letter)
 
-inOrderTraversal(root)
+def mainMenu(root):
+    while True:
+        print("\n==== Main Menu ====")
+        print("1. Insert a node")
+        print("2. Delete a node")
+        print("3. Pre-order Traversal")
+        print("4. In-order Traversal")
+        print("5. Post-order Traversal")
+        print("6. Breadth First Search Traversal")
+        print("7. Exit")
+
+        choice = input("Enter your choice (1-7): ")
+        if choice == '1':
+            node = int(input("--> Enter value to insert: "))
+            root = insert(root, node)
+            print(f"--> Inserted {node} into AVL tree.")
+        elif choice == '2':
+            node = int(input("--> Enter value to delete: "))
+            print("Deleted")
+        elif choice == '3':
+            print("--> Pre-order Traversal:")
+        elif choice == '4':
+            print("--> In-order Traversal:")
+            inOrderTraversal(root)
+        elif choice == '5':
+            print("--> Post-order Traversal:")
+        elif choice == '6':
+            print("--> Breadth First Search Traversal:")
+        elif choice == '7':
+            print("--> Exiting the program... Byerzzz!!!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+def main():
+    root = None
+    values = [10, 20, 30, 40, 50, 67]
+
+    for value in values:
+        root = insert(root, value)
+
+    print("================================")
+    print("Welcome to our AVL Tree Program!")
+    print("================================")
+
+    mainMenu(root)
+
+if __name__ == "__main__":
+    main()
