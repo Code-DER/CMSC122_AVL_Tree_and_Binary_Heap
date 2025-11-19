@@ -21,7 +21,7 @@ def getBalance(node):
     return getHeight(node.left) - getHeight(node.right)
 
 def rightRotate(y):
-    print("Rotate right on node,", y.data)
+    print("--> Rotate right on node", y.data)
     x = y.left
     T2 = x.right
     x.right = y
@@ -31,7 +31,7 @@ def rightRotate(y):
     return x
 
 def leftRotate(x):
-    print("Rotate left on node,", x.data)
+    print("--> Rotate left on node", x.data)
     y = x.right
     T2 = y.left
     y.left = x
@@ -70,38 +70,44 @@ def insert(node, data):
 
 def breadthFirstSearch(node):
     if node is None:
-        return
+        return []
     
+    result = []
     queue = deque([node])
     while queue:
         node = queue.popleft()
-        print(node.data, end=" ")
+        # print(node.data, end=" ")
+        result.append(node.data)
 
         if node.left:
             queue.append(node.left)
         if node.right:
             queue.append(node.right)
+    return result
 
 def preOrderTraversal(node):
     if node is None:
-        return
-    print(node.data, end=" ")
-    preOrderTraversal(node.left)
-    preOrderTraversal(node.right)
+        return []
+    return [node.data] + preOrderTraversal(node.left) + preOrderTraversal(node.right)
+    # print(node.data, end=" ")
+    # preOrderTraversal(node.left)
+    # preOrderTraversal(node.right)
 
 def inOrderTraversal(node):
     if node is None:
-        return
-    inOrderTraversal(node.left)
-    print(node.data, end=" ")
-    inOrderTraversal(node.right)
+        return []
+    return inOrderTraversal(node.left) + [node.data] + inOrderTraversal(node.right)
+    # inOrderTraversal(node.left)
+    # print(node.data, end=" ")
+    # inOrderTraversal(node.right)
 
 def postOrderTraversal(node):
     if node is None:
-        return
-    postOrderTraversal(node.left)
-    postOrderTraversal(node.right)
-    print(node.data, end=" ")
+        return []
+    return postOrderTraversal(node.left) + postOrderTraversal(node.right) + [node.data]
+    # postOrderTraversal(node.left)
+    # postOrderTraversal(node.right)
+    # print(node.data, end=" ")
 
 def printTree(node, level=0):
     if node is not None:
@@ -130,21 +136,35 @@ def mainMenu(root):
             node = input("--> Enter value to insert: ")
             root = insert(root, node)
             print(f"--> Inserted {node} into AVL tree.")
+            print("\n--> AVL Tree:")
+            printTree(root)
         elif choice == '3':
             node = int(input("--> Enter value to delete: "))
             print("Deleted")
         elif choice == '4':
             print("--> Pre-order Traversal:")
-            preOrderTraversal(root)
+            # preOrderTraversal(root)
+            print(*preOrderTraversal(root))
+            print("\n--> AVL Tree:")
+            printTree(root)
         elif choice == '5':
             print("--> In-order Traversal:")
-            inOrderTraversal(root)
+            # inOrderTraversal(root)
+            print(*inOrderTraversal(root))
+            print("\n--> AVL Tree:")
+            printTree(root)
         elif choice == '6':
             print("--> Post-order Traversal:")
-            postOrderTraversal(root)
+            # postOrderTraversal(root)
+            print(*postOrderTraversal(root))
+            print("\n--> AVL Tree:")
+            printTree(root)
         elif choice == '7':
             print("--> Breadth First Search Traversal:")
-            breadthFirstSearch(root)
+            # breadthFirstSearch(root)
+            print(*breadthFirstSearch(root))
+            print("\n--> AVL Tree:")
+            printTree(root)
         elif choice == '8':
             print("--> Exiting the program... Byerzzz!!!")
             break
