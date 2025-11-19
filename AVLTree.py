@@ -69,4 +69,10 @@ def inOrderTraversal(node):
     inOrderTraversal(node.left)
     print(node.data, end=" ")
     inOrderTraversal(node.right)
-    
+
+root = None
+letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
+for letter in letters:
+    root = insert(root, letter)
+
+inOrderTraversal(root)
