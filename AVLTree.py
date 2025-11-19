@@ -25,3 +25,13 @@ def rightRotate(y):
     x.height = 1 + max(getHeight(x.left), getHeight(x.right))
     return x
 
+def leftRotate(x):
+    print("Rotate left on node,", x.data)
+    y = x.right
+    T2 = y.left
+    y.left = x
+    x.right = T2
+    x.height = 1 + max(getHeight(x.left), getHeight(x.right))
+    y.height = 1 + max(getHeight(y.left), getHeight(y.right))
+    return y
+
