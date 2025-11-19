@@ -77,6 +77,73 @@ class MinHeap:
     def __str__(self):
         return str(self.heap)
 
+# Max heap
+class MaxHeap:
+    # constructor
+    def __init__(self, cap):
+        self.cap = cap # the max number of elements allowed
+        self.n = 0 # the current size of the heap
+        self.a = [0] * (cap + 1) # ignore index 0 so the heap starts at index 1 for cleaner formulas for the nodes
+
+    #formula for the parent node
+    def parent(self, i):
+        return i // 2 
+
+    #formula for the left child node
+    def left(self, i):
+        return 2 * i
+
+    # formula for the right child node (bc it's right next to the left child so just add 1)
+    def right(self, i):
+        return 2 * i + 1
+
+    # checks for leaf nodes using n
+    def isLeaf(self, i):
+        return i > (self.n // 2) and i <= self.n
+
+    #swap function
+    def swap(self, i, j):
+        self.a[i], self.a[j] = self.a[j], self.a[i]
+
+    # fix the heap from top to bottom
+    # every parent node should be greater than its children nodes
+    def maxHeapify(self, i):
+        if not self.isLeaf(i):
+            largest = i
+            if self.left(i) <= self.n and self.a[i] < self.a[self.left(i)]: # comparison with left child
+                largest = self.left(i)
+            if self.right(i) <= self.n and self.a[largest] < self.a[self.right(i)]: # comparison with right child
+                largest = self.right(i)
+            if largest != i: # swap if either of the children is bigger
+                self.swap(i, largest)
+                self.maxHeapify(largest)
+
+    # insert a value
+    def insert(self, val):
+        if self.n >= self.cap: # checks if heap is full
+            print("Heap is full!")
+            return
+        self.n += 1 # places the new value at n + 1
+        self.a[self.n] = val
+        i = self.n
+        while i > 1 and self.a[i] > self.a[self.parent(i)]: # switches with parent if the inserted value is bigger, loops until satisfied
+            self.swap(i, self.parent(i))
+            i = self.parent(i)
+
+    # remove and return the max 
+    def extractMax(self):
+        if self.n == 0:
+            return None
+        max_val = self.a[1] # the max is always the root
+        self.a[1] = self.a[self.n] # swaps the max with the last element
+        self.n -= 1 # decrease size
+        self.maxHeapify(1) #fix the max heap after the swap
+        return max_val 
+
+    # print
+    def printHeap(self):
+        print([self.a[i] for i in range(1, self.n + 1)])
+
 if __name__ == '__main__':
     heap = MinHeap()
     print("Insert 10")
@@ -104,3 +171,53 @@ if __name__ == '__main__':
 
     print("Deleted min element:", heap.delete())
     print("Min Heap after deletion:", heap)
+
+    # menu driven program
+    # print("Choose Heap Type:")
+    # print("1. Min Heap")
+    # print("2. Max Heap")
+
+    # choice = input("Enter choice (1/2): ")
+
+    # if choice == '1':
+    #     heap = MinHeap()
+    #     while True:
+    #         print("\nMin Heap Menu:")
+    #         print("1. Insert")
+    #         print("2. Delete Min")
+    #         print("3. Peek")
+    #         print("4. Print")
+    #         print("5. Exit")
+    #         c = input("Choice: ")
+
+    #         if c == '1':
+    #             heap.insert(int(input("Enter value: ")))
+    #         elif c == '2':
+    #             print("Deleted:", heap.delete())
+    #         elif c == '3':
+    #             print("Min:", heap.peek())
+    #         elif c == '4':
+    #             print("Heap:", heap)
+    #         elif c == '5':
+    #             break
+
+    # elif choice == '2':
+    #     cap = int(input("Enter Max Heap capacity: "))
+    #     heap = MaxHeap(cap)
+
+    #     while True:
+    #         print("\nMax Heap Menu:")
+    #         print("1. Insert")
+    #         print("2. Extract Max")
+    #         print("3. Print")
+    #         print("4. Exit")
+    #         c = input("Choice: ")
+
+    #         if c == '1':
+    #             heap.insert(int(input("Enter value: ")))
+    #         elif c == '2':
+    #             print("Max:", heap.extractMax())
+    #         elif c == '3':
+    #             heap.printHeap()
+    #         elif c == '4':
+    #             break
