@@ -35,3 +35,30 @@ def leftRotate(x):
     y.height = 1 + max(getHeight(y.left), getHeight(y.right))
     return y
 
+def insert(node, data):
+    if not node:
+        return treeNode(data)
+    
+    if data < node.data:
+        node.left = insert(node.left, data)
+    elif data > node.data:
+        node.right = insert(node.right, data)
+
+    node.height = 1 + max(getHeight(node.left), getHeight(node.right))
+    balance = getBalance(node)
+
+    if balance > 1 and getBalance(node.left) >= 0:
+        return rightRotate(node)
+    
+    if balance > 1 and getBalance(node.left) < 0:
+        node.left = leftRotate(node.left)
+        return rightRotate(node)
+    
+    if balance < -1 and getBalance(node.right) <= 0:
+        return leftRotate(node)
+    
+    if balance < -1 and getBalance(node.right) > 0:
+        node.right = rightRotate(node.right)
+        return leftRotate(node)
+    
+    return node
