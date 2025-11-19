@@ -7,6 +7,7 @@ In this activity, we will implement an AVL Tree and a Binary Heap in Python.
 - Insertion of nodes
 - Deletion of nodes
 - Traversal methods
+- Rotations for balancing
 
 ## Binary Heap Features
 - Insertion
