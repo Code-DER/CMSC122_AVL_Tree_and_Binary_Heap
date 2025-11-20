@@ -42,12 +42,17 @@ def leftRotate(x):
 
 def insert(node, data):
     if not node:
-        return treeNode(data)
+        return treeNode(data), True
     
     if data < node.data:
-        node.left = insert(node.left, data)
+        node.left, inserted = insert(node.left, data)
     elif data > node.data:
-        node.right = insert(node.right, data)
+        node.right, inserted = insert(node.right, data)
+    else:
+        return node, False
+    
+    if not inserted:
+        return node, False
 
     node.height = 1 + max(getHeight(node.left), getHeight(node.right))
     balance = getBalance(node)
@@ -66,7 +71,7 @@ def insert(node, data):
         node.right = rightRotate(node.right)
         return leftRotate(node)
     
-    return node
+    return node, True
 
 def minValueNode(node):
     current = node
@@ -188,8 +193,11 @@ def mainMenu(root):
             printTree(root)
         elif choice == '2':
             node = input("--> Enter value to insert: ")
-            root = insert(root, node)
-            print(f"--> Inserted {node} into AVL tree.")
+            root, successful = insert(root, node)
+            if successful:
+                print(f"--> Inserted {node} into AVL tree.")
+            else:
+                print(f"--> Node {node} already exists in the AVL tree.")
             print("\n--> AVL Tree:")
             printTree(root)
         elif choice == '3':
