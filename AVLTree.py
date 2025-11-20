@@ -89,12 +89,14 @@ def insert(node, data):
     
     return node, True
 
+# Funciton to find the minimum value node
 def minValueNode(node):
     current = node
     while current.left is not None:
         current = current.left
     return current
 
+# Function to delete node
 def deletion(node, data):
     if not node:
         return node, False
@@ -129,21 +131,21 @@ def deletion(node, data):
     node.height = 1 + max(getHeight(node.left), getHeight(node.right))
     balance = getBalance(node)
 
-    # Balancing the tree
-    # Left left
+    # Balancing the tree after deletion
+    # Left left rotation
     if balance > 1 and getBalance(node.left) >= 0:
         return rightRotate(node), True
     
-    # Left right
+    # Left right rotation
     if balance > 1 and getBalance(node.left) < 0:
         node.left = leftRotate(node.left)
         return rightRotate(node), True
     
-    # Right right
+    # Right right rotation
     if balance < -1 and getBalance(node.right) <= 0:
         return leftRotate(node), True
     
-    # Right left
+    # Right left rotation
     if balance < -1 and getBalance(node.right) > 0:
         node.right = rightRotate(node.right)
         return leftRotate(node), True
