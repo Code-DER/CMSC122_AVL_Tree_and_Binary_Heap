@@ -1,3 +1,6 @@
+# CMSC 122 (C-3L) Week 6 Laboratory Activity
+# Joseph Francis Buhayan, Xander Jay Cagang, Michael James Mangaron, Joe Hanna Cantero, Charisse Lorejo, Krystel Mikylla Perez
+
 class MinHeap:
     def __init__(self):
         self.heap = []

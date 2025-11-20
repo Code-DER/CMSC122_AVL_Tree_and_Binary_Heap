@@ -195,7 +195,7 @@ def mainMenu(root):
         elif choice == '3':
             node = (input("--> Enter value to delete: "))
             root = deletion(root, node)
-            print(f"--> Deleted {node} into AVL tree.")
+            print(f"--> Deleted {node} from AVL tree.")
             printTree(root)
         elif choice == '4':
             print("--> Pre-order Traversal:")
@@ -227,7 +227,6 @@ def mainMenu(root):
         else:
             print("Invalid choice. Please try again.")
 
-
 def main():
     root = None
 
@@ -239,6 +238,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
