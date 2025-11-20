@@ -11,31 +11,39 @@ class treeNode:
         self.height = 1
 
 def getHeight(node):
+    # Returns height of the node
     if not node:
         return 0
     return node.height
 
 def getBalance(node):
+    # Computes the balance factor of a node
     if not node:
         return 0
     return getHeight(node.left) - getHeight(node.right)
 
 def rightRotate(y):
+    # Performs right rotation on node y
     print("--> Rotate right on node", y.data)
-    x = y.left
-    T2 = x.right
+    x = y.left # X becomes the new root of the rotated subtree
+    T2 = x.right # T2 is temporarily stored because it moves
+    # Rotation
     x.right = y
     y.left = T2
+    # Update heights of x and y after rotation
     y.height = 1 + max(getHeight(y.left), getHeight(y.right))
     x.height = 1 + max(getHeight(x.left), getHeight(x.right))
     return x
 
 def leftRotate(x):
+    # Performs left rotation on node x
     print("--> Rotate left on node", x.data)
-    y = x.right
-    T2 = y.left
+    y = x.right # y becomes the new root of the rotated subtree
+    T2 = y.left # T2 is temporarily stored because it moves
+    # Perform rotation
     y.left = x
     x.right = T2
+    # Update heights of x and y after rotation
     x.height = 1 + max(getHeight(x.left), getHeight(x.right))
     y.height = 1 + max(getHeight(y.left), getHeight(y.right))
     return y
@@ -44,29 +52,37 @@ def insert(node, data):
     if not node:
         return treeNode(data), True
     
+    # Insert node in right position just like in BST
     if data < node.data:
         node.left, inserted = insert(node.left, data)
     elif data > node.data:
         node.right, inserted = insert(node.right, data)
     else:
+        # Do not insert duplicate value
         return node, False
     
     if not inserted:
         return node, False
 
+    # Update height of current node
     node.height = 1 + max(getHeight(node.left), getHeight(node.right))
+    # Compute for the balance factor
     balance = getBalance(node)
 
+    # Left Left Case (Left Heavy)
     if balance > 1 and getBalance(node.left) >= 0:
         return rightRotate(node), True
     
+    # Left Right Case (Heavy on left child's right)
     if balance > 1 and getBalance(node.left) < 0:
         node.left = leftRotate(node.left)
         return rightRotate(node), True
     
+    # Right Right Case (Right Heavy)
     if balance < -1 and getBalance(node.right) <= 0:
         return leftRotate(node), True
     
+    # Right Left Case (Heavy on right child's left)
     if balance < -1 and getBalance(node.right) > 0:
         node.right = rightRotate(node.right)
         return leftRotate(node), True
@@ -134,6 +150,7 @@ def deletion(node, data):
     
     return node, True
 
+# Breadth First Search Traversal Function
 def breadthFirstSearch(node):
     if node is None:
         return []
@@ -151,37 +168,32 @@ def breadthFirstSearch(node):
             queue.append(node.right)
     return result
 
+# Pre Order Traversal Function
 def preOrderTraversal(node):
     if node is None:
         return []
     return [node.data] + preOrderTraversal(node.left) + preOrderTraversal(node.right)
-    # print(node.data, end=" ")
-    # preOrderTraversal(node.left)
-    # preOrderTraversal(node.right)
 
+# In Order Traversal Function
 def inOrderTraversal(node):
     if node is None:
         return []
     return inOrderTraversal(node.left) + [node.data] + inOrderTraversal(node.right)
-    # inOrderTraversal(node.left)
-    # print(node.data, end=" ")
-    # inOrderTraversal(node.right)
 
+# Post Order Traversal function
 def postOrderTraversal(node):
     if node is None:
         return []
     return postOrderTraversal(node.left) + postOrderTraversal(node.right) + [node.data]
-    # postOrderTraversal(node.left)
-    # postOrderTraversal(node.right)
-    # print(node.data, end=" ")
 
+# Function for printing tree
 def printTree(node, level=0):
     if node is not None:
         printTree(node.right, level + 1)
         print(' ' * 5 * level + '->', node.data)
         printTree(node.left, level + 1)
 
-
+# Main menu
 def mainMenu(root):
     while True:
         print("\n==== Main Menu ====")
