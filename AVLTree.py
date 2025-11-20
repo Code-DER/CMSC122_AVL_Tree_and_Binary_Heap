@@ -58,18 +58,18 @@ def insert(node, data):
     balance = getBalance(node)
 
     if balance > 1 and getBalance(node.left) >= 0:
-        return rightRotate(node)
+        return rightRotate(node), True
     
     if balance > 1 and getBalance(node.left) < 0:
         node.left = leftRotate(node.left)
-        return rightRotate(node)
+        return rightRotate(node), True
     
     if balance < -1 and getBalance(node.right) <= 0:
-        return leftRotate(node)
+        return leftRotate(node), True
     
     if balance < -1 and getBalance(node.right) > 0:
         node.right = rightRotate(node.right)
-        return leftRotate(node)
+        return leftRotate(node), True
     
     return node, True
 
@@ -81,27 +81,34 @@ def minValueNode(node):
 
 def deletion(node, data):
     if not node:
-        return node
+        return node, False
+    
+    deleted = False
+
     if data < node.data:
-        node.left = deletion(node.left, data)
+        node.left, deleted = deletion(node.left, data)
     elif data > node.data:
-        node.right = deletion(node.right, data)
+        node.right, deleted = deletion(node.right, data)
     else:
+        deleted = True
         if node.left is None:
             temp = node.right
             node = None
-            return temp
+            return temp, True
         elif node.right is None:
             temp = node.left
             node = None
-            return temp
+            return temp, True
         
         temp = minValueNode(node.right)
         node.data = temp.data
-        node.right = deletion(node.right, temp.data)
+        node.right, _ = deletion(node.right, temp.data)
+    
+    if not deleted:
+        return node, False
     
     if node is None:
-        return node
+        return node, False
     
     node.height = 1 + max(getHeight(node.left), getHeight(node.right))
     balance = getBalance(node)
@@ -109,23 +116,23 @@ def deletion(node, data):
     # Balancing the tree
     # Left left
     if balance > 1 and getBalance(node.left) >= 0:
-        return rightRotate(node)
+        return rightRotate(node), True
     
     # Left right
     if balance > 1 and getBalance(node.left) < 0:
         node.left = leftRotate(node.left)
-        return rightRotate(node)
+        return rightRotate(node), True
     
     # Right right
     if balance < -1 and getBalance(node.right) <= 0:
-        return leftRotate(node)
+        return leftRotate(node), True
     
     # Right left
     if balance < -1 and getBalance(node.right) > 0:
         node.right = rightRotate(node.right)
-        return leftRotate(node)
+        return leftRotate(node), True
     
-    return node
+    return node, True
 
 def breadthFirstSearch(node):
     if node is None:
@@ -202,8 +209,11 @@ def mainMenu(root):
             printTree(root)
         elif choice == '3':
             node = (input("--> Enter value to delete: "))
-            root = deletion(root, node)
-            print(f"--> Deleted {node} from AVL tree.")
+            root, deleted = deletion(root, node)
+            if deleted:
+                print(f"--> Deleted {node} from AVL tree.")
+            else:
+                print(f"--> Node {node} not found in the AVL tree.")
             printTree(root)
         elif choice == '4':
             print("--> Pre-order Traversal:")
