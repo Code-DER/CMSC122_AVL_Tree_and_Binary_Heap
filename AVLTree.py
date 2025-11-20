@@ -68,6 +68,60 @@ def insert(node, data):
     
     return node
 
+def minValueNode(node):
+    current = node
+    while current.left is not None:
+        current = current.left
+    return current
+
+def deletion(node, data):
+    if not node:
+        return node
+    if data < node.data:
+        node.left = deletion(node.left, data)
+    elif data > node.data:
+        node.right = deletion(node.right, data)
+    else:
+        if node.left is None:
+            temp = node.right
+            node = None
+            return temp
+        elif node.right is None:
+            temp = node.left
+            node = None
+            return temp
+        
+        temp = minValueNode(node.right)
+        node.data = temp.data
+        node.right = deletion(node.right, temp.data)
+    
+    if node is None:
+        return node
+    
+    node.height = 1 + max(getHeight(node.left), getHeight(node.right))
+    balance = getBalance(node)
+
+    # Balancing the tree
+    # Left left
+    if balance > 1 and getBalance(node.left) >= 0:
+        return rightRotate(node)
+    
+    # Left right
+    if balance > 1 and getBalance(node.left) < 0:
+        node.left = leftRotate(node.left)
+        return rightRotate(node)
+    
+    # Right right
+    if balance < -1 and getBalance(node.right) <= 0:
+        return leftRotate(node)
+    
+    # Right left
+    if balance < -1 and getBalance(node.right) > 0:
+        node.right = rightRotate(node.right)
+        return leftRotate(node)
+    
+    return node
+
 def breadthFirstSearch(node):
     if node is None:
         return []
@@ -139,8 +193,10 @@ def mainMenu(root):
             print("\n--> AVL Tree:")
             printTree(root)
         elif choice == '3':
-            node = int(input("--> Enter value to delete: "))
-            print("Deleted")
+            node = (input("--> Enter value to delete: "))
+            root = deletion(root, node)
+            print(f"--> Deleted {node} into AVL tree.")
+            printTree(root)
         elif choice == '4':
             print("--> Pre-order Traversal:")
             # preOrderTraversal(root)
