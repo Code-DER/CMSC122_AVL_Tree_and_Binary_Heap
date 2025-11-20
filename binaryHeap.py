@@ -3,64 +3,83 @@
 
 class MinHeap:
     def __init__(self):
+        # Declaration of empty min heap
         self.heap = []
 
     def parent(self, i):
+        # Returns the index of the parent of the node at index i.
         return (i - 1) // 2 
 
     def leftChild(self, i):
+        # Returns the index of the left child of the node at index i.
         return 2 * i + 1
 
     def rightChild(self, i):
+        # Returns the index of the right child of the node at index i.
         return 2 * i + 2
 
-    def swap(self, i, j):  # Fixed: changed Swap to swap for consistency
+    def swap(self, i, j):
+        # Swaps the elements at indices i and j in the heap.
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i] 
 
     def heapifyUp(self, i):
+        # Moves the node at index i up the heap to its correct position.
+        # This is used after insertion.
         while i > 0 and self.heap[i] < self.heap[self.parent(i)]:  
-            self.swap(i, self.parent(i))  # Fixed: changed Swap to swap
+            self.swap(i, self.parent(i))
             i = self.parent(i)
 
     def heapifyDown(self, i):
+        # Moves the node at index i down the heap to its correct position.
+        # This is used after deletion.
         min_index = i               
         left = self.leftChild(i)    
         right = self.rightChild(i)
 
+        # Check if left child is smaller than the current node
         if left < len(self.heap) and self.heap[left] < self.heap[min_index]:
             min_index = left
 
+        # Check if right child is smaller than the current smallest
         if right < len(self.heap) and self.heap[right] < self.heap[min_index]:
             min_index = right
 
+        # If the smallest is not the current node, Swap and continue heapifying down
         if i != min_index:
-            self.swap(i, min_index)  # Fixed: changed Swap to swap
+            self.swap(i, min_index)
             self.heapifyDown(min_index)
 
     def insert(self, value):
+        # Inserts a new value into the heap.
         self.heap.append(value)
         self.heapifyUp(len(self.heap) - 1)  
 
     def delete(self):
+        # Deletes and returns the minimum element from the heap.
+        # The minimum element is always at the root.
         if not self.heap:
             return None
 
         if len(self.heap) == 1:
             return self.heap.pop()
 
+        # Move the last element to the root
         root = self.heap[0]
         self.heap[0] = self.heap.pop()
+        
+        # Restore the heap property
         self.heapifyDown(0)
         return root
 
     def peek(self):
+        # Returns the minimum element without removing it.
         return self.heap[0] if self.heap else None
 
-    def size(self):  # Added missing method
+    def size(self):
         return len(self.heap)
 
     def display(self):
-        """Display the heap as a tree structure"""
+        # Display the heap as a tree structure
         if not self.heap:
             print("Heap is empty!")
             return
@@ -97,7 +116,7 @@ class MinHeap:
         print("=" * 60)
 
     def _calculate_height(self):
-        """Calculate the height of the heap"""
+        # Calculate the height of the heap
         n = len(self.heap)
         if n == 0:
             return 0
@@ -107,6 +126,7 @@ class MinHeap:
         return height - 1
 
     def __str__(self):
+        # Returns the minimum element without removing it.
         return str(self.heap)
 
 # Max heap
@@ -187,7 +207,7 @@ class MaxHeap:
 
     # display function
     def display(self):
-        """Display the heap as a tree structure"""
+        # Display the heap as a tree structure
         if self.n == 0:
             print("Heap is empty!")
             return
@@ -224,7 +244,7 @@ class MaxHeap:
         print("=" * 60)
     
     def _calculate_height(self):
-        """Calculate the height of the heap"""
+        # Calculate the height of the heap
         if self.n == 0:
             return 0
         height = 0
