@@ -11,12 +11,12 @@ class MinHeap:
     def rightChild(self, i):
         return 2 * i + 2
 
-    def Swap(self, i, j):
+    def swap(self, i, j):  # Fixed: changed Swap to swap for consistency
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i] 
 
     def heapifyUp(self, i):
         while i > 0 and self.heap[i] < self.heap[self.parent(i)]:  
-            self.Swap(i, self.parent(i))                            
+            self.swap(i, self.parent(i))  # Fixed: changed Swap to swap
             i = self.parent(i)
 
     def heapifyDown(self, i):
@@ -31,7 +31,7 @@ class MinHeap:
             min_index = right
 
         if i != min_index:
-            self.Swap(i, min_index)
+            self.swap(i, min_index)  # Fixed: changed Swap to swap
             self.heapifyDown(min_index)
 
     def insert(self, value):
@@ -52,6 +52,9 @@ class MinHeap:
 
     def peek(self):
         return self.heap[0] if self.heap else None
+
+    def size(self):  # Added missing method
+        return len(self.heap)
 
     def display(self):
         """Display the heap as a tree structure"""
@@ -126,6 +129,9 @@ class MaxHeap:
         self.a[i], self.a[j] = self.a[j], self.a[i]
 
     def maxHeapify(self, i):
+        if i > self.n:  # Added: check if index is valid
+            return
+            
         largest = i
         left = self.left(i)
         right = self.right(i)
@@ -159,6 +165,12 @@ class MaxHeap:
         self.n -= 1
         self.maxHeapify(1)
         return max_val 
+
+    def peek(self):  # Added missing method
+        return self.a[1] if self.n > 0 else None
+
+    def size(self):  # Added missing method
+        return self.n
 
     def display(self):
         """Display the heap as a tree structure"""
@@ -308,7 +320,7 @@ def main():
                     print("Heap is empty!")
                     
             elif choice == '3':
-                max_val = heap.peek()
+                max_val = heap.peek()  # Now this will work
                 if max_val is not None:
                     print(f"Maximum value: {max_val}")
                 else:
@@ -321,7 +333,7 @@ def main():
                 heap.printHeap()
                 
             elif choice == '6':
-                print(f"Heap size: {heap.size()}")
+                print(f"Heap size: {heap.size()}")  # Now this will work
                 
             elif choice == '7':
                 break
